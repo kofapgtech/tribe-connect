@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loading Line Demo</title>
+  <link rel="stylesheet" href="loading-line.css" />
+  <style>
+    body { margin: 0; font: 14px/1.5 system-ui, sans-serif; background: #fafafa; color: #111; }
+    header { padding: 16px 24px; font-weight: 600; }
+    main { padding: 24px; }
+    button { font: inherit; padding: 6px 12px; }
+    @media (prefers-color-scheme: dark) { body { background: #121212; color: #eee; } }
+  </style>
+</head>
+<body>
+  <header>Tribe Connect</header>
+  <div class="loading-line" id="line" data-loading="true"><span class="loading-line__pulse"></span></div>
+  <main>
+    <button id="toggle">Toggle loading</button>
+    <button id="nav">Simulate screen change (1.5s)</button>
+  </main>
+  <script>
+    const line = document.getElementById('line');
+    const set = (on) => (line.dataset.loading = String(on));
+    document.getElementById('toggle').onclick = () => set(line.dataset.loading !== 'true');
+    document.getElementById('nav').onclick = () => { set(true); setTimeout(() => set(false), 1500); };
+  </script>
+</body>
+</html>

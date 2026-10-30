@@ -7,6 +7,7 @@ import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { BrandRing } from '@/components/BrandRing';
+import { AccentGlow } from '@/components/AccentGlow';
 import { revealTribe } from '@/data';
 import type { TribeReveal } from '@/data/types';
 import { useOnboarding } from '@/state/onboarding';
@@ -52,6 +53,7 @@ export default function Reveal() {
         </View>
       }
     >
+      <AccentGlow intensity={0.28} />
       <View style={{ flex: 1, justifyContent: 'center', gap: theme.spacing.xl }}>
         <View
           style={{
@@ -87,7 +89,7 @@ export default function Reveal() {
           <Text variant="display" color={theme.colors.textInverse} center>
             {archetype.name}
           </Text>
-          <Text variant="title" color={theme.colors.primaryContent} center>
+          <Text variant="title" color={theme.colors.textInverse} center>
             {archetype.tagline}
           </Text>
         </View>

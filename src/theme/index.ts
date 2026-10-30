@@ -1,5 +1,6 @@
-import { useColorScheme } from 'react-native';
+import { useRevealedTribeId } from '@/state/onboarding';
 import { darkColors, lightColors, palette, type ThemeColors } from './colors';
+import { accentForTribe } from './tribeAccent';
 import { fonts, textVariants, type TextVariant } from './typography';
 import { layout, radius, spacing } from './spacing';
 
@@ -12,18 +13,25 @@ export type Theme = {
   isDark: boolean;
 };
 
+/**
+ * The app is locked to the dark "ink" palette — the OS color scheme is
+ * intentionally ignored (isDark is always true). The only variable color is
+ * `accent`, which resolves to the member's revealed tribe (or the Seekers
+ * default before reveal).
+ */
 export function useTheme(): Theme {
-  const scheme = useColorScheme();
-  const isDark = scheme === 'dark';
+  const tribeId = useRevealedTribeId();
+  const { accent, accentContent } = accentForTribe(tribeId);
   return {
-    colors: isDark ? darkColors : lightColors,
+    colors: { ...darkColors, accent, accentContent },
     spacing,
     radius,
     layout,
     fonts,
-    isDark,
+    isDark: true,
   };
 }
 
-export { palette, spacing, radius, layout, fonts, textVariants };
+export { palette, lightColors, darkColors, spacing, radius, layout, fonts, textVariants };
+export { accentForTribe, designSystemAccents, tribeAccentById } from './tribeAccent';
 export type { ThemeColors, TextVariant };

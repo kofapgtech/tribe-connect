@@ -5,6 +5,7 @@ import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
 import { BrandBar } from '@/components/BrandBar';
+import { AccentGlow } from '@/components/AccentGlow';
 import { radius, useTheme } from '@/theme';
 
 export default function Welcome() {
@@ -13,6 +14,7 @@ export default function Welcome() {
 
   return (
     <Screen>
+      <AccentGlow />
       <View style={{ flex: 1, justifyContent: 'center', gap: theme.spacing.xl }}>
         <View
           style={{

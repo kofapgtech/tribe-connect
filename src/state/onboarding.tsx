@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 import { categoriesForSelection } from '@/data';
 import { computeTribe } from '@/data/tribes';
-import type { InterestCategoryId, TribeReveal } from '@/data/types';
+import type { InterestCategoryId, TribeArchetypeId, TribeReveal } from '@/data/types';
 
 type OnboardingState = {
   selected: string[];
@@ -54,4 +54,13 @@ export function useOnboarding(): OnboardingState {
   const ctx = useContext(Ctx);
   if (!ctx) throw new Error('useOnboarding must be used within OnboardingProvider');
   return ctx;
+}
+
+/**
+ * Revealed tribe id, or null if not yet revealed / called outside the
+ * provider. Non-throwing on purpose: the theme reads this (useTheme) and
+ * runs above OnboardingProvider in the root layout, where null is correct.
+ */
+export function useRevealedTribeId(): TribeArchetypeId | null {
+  return useContext(Ctx)?.tribe?.archetype.id ?? null;
 }

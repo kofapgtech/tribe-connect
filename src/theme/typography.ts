@@ -40,10 +40,10 @@ export const textVariants: Record<TextVariant, VariantStyle> = {
   bodyStrong: { fontFamily: fonts.bodyBold, fontSize: 16, lineHeight: 24 },
   muted: { fontFamily: fonts.body, fontSize: 14, lineHeight: 21 },
   label: {
-    fontFamily: fonts.bodyBold,
+    fontFamily: fonts.bodyBlack,
     fontSize: 12,
     lineHeight: 16,
-    letterSpacing: 1.2,
+    letterSpacing: 2.4,
     textTransform: 'uppercase',
   },
   small: { fontFamily: fonts.body, fontSize: 12, lineHeight: 17 },

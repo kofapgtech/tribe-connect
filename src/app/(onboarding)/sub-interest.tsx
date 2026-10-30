@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
+import { SelectionPill } from '@/components/SelectionPill';
 import { getCategory } from '@/data';
 import type { InterestCategory, InterestCategoryId } from '@/data/types';
 import { useOnboarding } from '@/state/onboarding';
-import { radius, useTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 export default function SubInterest() {
   const { category } = useLocalSearchParams<{ category: InterestCategoryId }>();
@@ -36,32 +36,15 @@ export default function SubInterest() {
       </View>
 
       <View style={{ gap: theme.spacing.md }}>
-        {cat?.subInterests.map((s) => {
-          const on = isSelected(s.id);
-          return (
-            <Pressable key={s.id} onPress={() => toggle(s.id)}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: theme.spacing.md,
-                  backgroundColor: on ? theme.colors.surfaceSoft : theme.colors.surface,
-                  borderRadius: radius.md,
-                  borderWidth: 1,
-                  borderColor: on ? theme.colors.secondary : theme.colors.border,
-                  padding: theme.spacing.lg,
-                }}
-              >
-                <Ionicons
-                  name={on ? 'checkbox' : 'square-outline'}
-                  size={24}
-                  color={on ? theme.colors.secondary : theme.colors.textMuted}
-                />
-                <Text variant="bodyStrong">{s.label}</Text>
-              </View>
-            </Pressable>
-          );
-        })}
+        {cat?.subInterests.map((s) => (
+          <SelectionPill
+            key={s.id}
+            showCheck
+            label={s.label}
+            selected={isSelected(s.id)}
+            onPress={() => toggle(s.id)}
+          />
+        ))}
       </View>
 
       <Text variant="small" center>

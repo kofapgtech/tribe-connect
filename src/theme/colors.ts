@@ -1,9 +1,16 @@
 /**
- * Tribe Connect color system — logo-faithful.
- * Brand: Red #DB1F26 · Green #008041 · Black #000000 · Cream #F2E8CE
+ * Tribe Connect color system — dark "ink" design system.
  *
- * Direction: high-contrast black + cream, with green as the primary action
- * color and red as a co-accent (identity moments, highlights, the arc motif).
+ * Ground is ink: the app is dark everywhere (see theme/index.ts — the OS
+ * color scheme is ignored and the dark palette is always returned).
+ *
+ * Color roles:
+ *   Green  — action / confirmed, fixed on every screen.
+ *   Red    — "the house": logo arc and rare brand moments only (the `house`
+ *            token), never a generic accent.
+ *   Accent — the one variable color, set from the member's revealed tribe
+ *            (see theme/tribeAccent.ts). Defaults to the Seekers gold.
+ *
  * Screens read semantic tokens only — never raw hex.
  */
 
@@ -23,21 +30,25 @@ export const palette = {
   border: '#D8C79B',
   mutedText: '#6E664F',
   white: '#FFFFFF',
+
+  // The house color — brand red, reserved for the logo arc / brand moments.
+  house: '#F0434A',
+  houseContent: '#F2E8CE',
 } as const;
 
 export type ThemeColors = {
   background: string;
   surface: string;
   surfaceSoft: string;
-  surfaceInverse: string; // black hero blocks
+  surfaceInverse: string; // deepest panels / immersive hero blocks
   primary: string;
   primaryContent: string;
   secondary: string; // positive / confirm (green)
-  accent: string; // red co-accent
-  accentContent: string;
+  accent: string; // tribe color (dynamic — resolved in useTheme)
+  accentContent: string; // readable text on the accent fill
   text: string;
   textMuted: string;
-  textInverse: string; // text on black heroes
+  textInverse: string; // text on immersive hero blocks
   border: string;
   borderInverse: string;
   tabBg: string;
@@ -45,6 +56,8 @@ export type ThemeColors = {
   tabInactive: string;
   success: string;
   warning: string;
+  house: string; // the house red — logo arc / brand only
+  houseContent: string; // text on the house fill
 };
 
 export const lightColors: ThemeColors = {
@@ -55,8 +68,8 @@ export const lightColors: ThemeColors = {
   primary: palette.green,
   primaryContent: palette.cream,
   secondary: palette.green,
-  accent: palette.red,
-  accentContent: palette.cream,
+  accent: '#E0A43B',
+  accentContent: '#1B1403',
   text: palette.ink,
   textMuted: palette.mutedText,
   textInverse: palette.cream,
@@ -67,26 +80,33 @@ export const lightColors: ThemeColors = {
   tabInactive: '#8A8068',
   success: palette.green,
   warning: '#C9962B',
+  house: palette.red,
+  houseContent: palette.cream,
 };
 
+// Dark "ink" palette — the active palette everywhere. Values are fixed by the
+// design system; the `accent` here is the default (Seekers gold) and is
+// overridden per revealed tribe in useTheme().
 export const darkColors: ThemeColors = {
-  background: palette.charcoal,
-  surface: '#1E1B16',
-  surfaceSoft: '#241F18',
-  surfaceInverse: '#0C0B09',
-  primary: '#1E9E5E',
-  primaryContent: '#07130D',
-  secondary: '#2FA368',
-  accent: '#F0564B',
-  accentContent: '#140B0A',
-  text: palette.cream,
-  textMuted: '#A99F82',
-  textInverse: palette.cream,
-  border: '#2E2A22',
-  borderInverse: '#3A352B',
-  tabBg: '#0C0B09',
-  tabActive: palette.cream,
-  tabInactive: '#6E664F',
-  success: '#2FA368',
+  background: '#0C0A07',
+  surface: '#16120C',
+  surfaceSoft: '#1E1811',
+  surfaceInverse: '#0A0806',
+  primary: '#1FA85F',
+  primaryContent: '#06130B',
+  secondary: '#1FA85F',
+  accent: '#E0A43B',
+  accentContent: '#1B1403',
+  text: '#F2E8CE',
+  textMuted: '#A49A84',
+  textInverse: '#F2E8CE',
+  border: '#2A2318',
+  borderInverse: '#3A3123',
+  tabBg: '#0A0806',
+  tabActive: '#F2E8CE',
+  tabInactive: '#766C58',
+  success: '#1FA85F',
   warning: '#E0B64A',
+  house: '#F0434A',
+  houseContent: '#F2E8CE',
 };

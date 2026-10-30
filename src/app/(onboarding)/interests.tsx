@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
+import { SelectionPill } from '@/components/SelectionPill';
 import { getInterestCategories } from '@/data';
 import type { InterestCategory } from '@/data/types';
 import { useOnboarding } from '@/state/onboarding';
-import { radius, useTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 export default function Interests() {
   const router = useRouter();
@@ -37,46 +38,18 @@ export default function Interests() {
       </View>
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.md }}>
-        {categories.map((cat) => {
-          const count = countForCategory(cat.id);
-          const active = count > 0;
-          return (
-            <Pressable
-              key={cat.id}
-              onPress={() => router.push({ pathname: '/sub-interest', params: { category: cat.id } })}
-              style={{ width: '47%' }}
-            >
-              <View
-                style={{
-                  backgroundColor: active ? theme.colors.surfaceInverse : theme.colors.surface,
-                  borderRadius: radius.lg,
-                  borderWidth: 1,
-                  borderColor: active ? theme.colors.borderInverse : theme.colors.border,
-                  padding: theme.spacing.lg,
-                  gap: theme.spacing.sm,
-                  minHeight: 108,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Ionicons
-                  name={cat.icon as keyof typeof Ionicons.glyphMap}
-                  size={26}
-                  color={active ? theme.colors.textInverse : theme.colors.secondary}
-                />
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Text variant="title" color={active ? theme.colors.textInverse : theme.colors.text}>
-                    {cat.label}
-                  </Text>
-                  {count > 0 ? (
-                    <Text variant="small" color={theme.colors.accent}>
-                      {count}
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
-            </Pressable>
-          );
-        })}
+        {categories.map((cat) => (
+          <SelectionPill
+            key={cat.id}
+            block
+            label={cat.label}
+            icon={cat.icon as keyof typeof Ionicons.glyphMap}
+            count={countForCategory(cat.id)}
+            selected={countForCategory(cat.id) > 0}
+            onPress={() => router.push({ pathname: '/sub-interest', params: { category: cat.id } })}
+            style={{ width: '47%' }}
+          />
+        ))}
       </View>
 
       <Text variant="small" center>

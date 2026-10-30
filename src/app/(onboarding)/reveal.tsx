@@ -48,7 +48,7 @@ export default function Reveal() {
     <Screen
       footer={
         <View style={{ gap: theme.spacing.md }}>
-          <Button label="This feels like me" onPress={() => router.replace('/journey')} />
+          <Button label="This feels like me" variant="accent" onPress={() => router.replace('/journey')} />
           <Button label="Revisit my choices" variant="ghost" onPress={() => router.back()} />
         </View>
       }

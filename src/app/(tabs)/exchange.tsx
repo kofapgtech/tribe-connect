@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Card } from '@/components/Card';
-import { useTheme } from '@/theme';
+import { radius, useTheme } from '@/theme';
 
 export default function Exchange() {
   const theme = useTheme();
@@ -11,6 +11,20 @@ export default function Exchange() {
     <Screen>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: theme.spacing.lg }}>
         <Ionicons name="wallet-outline" size={48} color={theme.colors.textMuted} />
+        <View
+          style={{
+            borderRadius: radius.pill,
+            borderWidth: 1,
+            borderColor: theme.colors.border,
+            backgroundColor: theme.colors.surfaceSoft,
+            paddingVertical: 5,
+            paddingHorizontal: 14,
+          }}
+        >
+          <Text variant="label" color={theme.colors.textMuted}>
+            Soon
+          </Text>
+        </View>
         <Text variant="h1" center>
           Exchange
         </Text>

@@ -114,3 +114,87 @@ export interface NoteMoment {
 }
 
 export type Moment = MediaMoment | GatheringMoment | NoteMoment;
+
+/** Placeholder-gradient tone, mapped to token colors in theme/tones.ts. */
+export type Tone = 'gold' | 'warm' | 'cool' | 'forest' | 'clay' | 'night' | 'plum' | 'heritage';
+
+/** The pinned Lead card at the top of the TribeConnect feed. */
+export interface PinnedLead {
+  hostId: string;
+  headline: string;
+  body: string;
+  cta: string;
+  tone: Tone;
+}
+
+// ---------------- MyJourney ----------------
+
+export type ServiceId = 'transport' | 'meals' | 'wellness';
+export interface Service {
+  id: ServiceId;
+  name: string;
+  tone: Tone;
+  icon: string; // Ionicons name
+  desc: string;
+  action: string;
+  hot?: boolean;
+  hint?: string;
+}
+
+export type ExploreKind = 'experience' | 'activity' | 'space' | 'event' | 'service';
+export interface ExploreCategory {
+  id: 'all' | ExploreKind;
+  label: string;
+}
+export interface ExplorePick {
+  id: string;
+  title: string;
+  meta: string; // "Full-day · ★ 4.98"
+  tone: Tone;
+  kind: ExploreKind;
+  availability: string; // "Concierge confirms" | "Book any time"
+  bookable: 'confirm' | 'anytime';
+  section: 'picks' | 'excursions';
+}
+
+export type ItineraryStatus = 'conf' | 'await';
+export interface ItineraryItem {
+  time: string;
+  title: string;
+  detail: string;
+  status: ItineraryStatus;
+  kind: string;
+  audience: 'you' | 'crew';
+  addLabel?: string; // "Add a guide" | "Add-on services"
+}
+export interface ItineraryDay {
+  rel: string; // "Today"
+  date: string; // "Wed · 18 Mar"
+  items: ItineraryItem[];
+}
+export interface NavDay {
+  wd: string; // "W"
+  dn: number; // 18
+  state: 'past' | 'today' | 'future';
+}
+
+// ---------------- MyTribe ----------------
+
+export type ThreadCat = 'navigator' | 'concierge' | 'group' | 'connection';
+export interface Thread {
+  id: string;
+  name: string;
+  last: string;
+  time: string;
+  cat: ThreadCat;
+  tag: string; // "Navigator" | "5 people" | "Kente & craft"
+  tone: Tone;
+  vetted?: boolean;
+  unread?: number;
+  crew?: boolean;
+  pinned?: boolean;
+}
+export interface TribeFilter {
+  id: 'all' | ThreadCat;
+  label: string;
+}

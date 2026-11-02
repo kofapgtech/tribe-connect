@@ -36,4 +36,5 @@ export function useTheme(): Theme {
 
 export { palette, lightColors, darkColors, spacing, radius, layout, elevation, fonts, textVariants };
 export { accentForTribe, designSystemAccents, tribeAccentById } from './tribeAccent';
+export { toneColors } from './tones';
 export type { ThemeColors, TextVariant };

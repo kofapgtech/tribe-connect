@@ -1,5 +1,18 @@
 import { query } from './client';
-import type { Moment } from './types';
+import type { Moment, PinnedLead } from './types';
+
+/** The pinned Lead at the top of the feed — the member's Community Lead. */
+export const pinnedLead: PinnedLead = {
+  hostId: 'host-ama',
+  headline: 'December in Accra, the way we live it',
+  body: "Detty December is more than parties. Here's the heritage, the food and the gatherings I'm hosting for arriving family.",
+  cta: 'See her gatherings',
+  tone: 'clay',
+};
+
+export function getPinnedLead() {
+  return query(() => pinnedLead);
+}
 
 /**
  * TribeConnect feed — a vertical scroll of "moments." Three kinds:

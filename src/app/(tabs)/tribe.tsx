@@ -1,40 +1,179 @@
-import { View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
-import { Card } from '@/components/Card';
-import { useTheme } from '@/theme';
+import { SelectionPill } from '@/components/SelectionPill';
+import { TribeBadge, tribeName } from '@/components/TribeBadge';
+import { dispatch, getThreads, tribeFilters } from '@/data';
+import type { Thread } from '@/data/types';
+import { useOnboarding } from '@/state/onboarding';
+import { radius, toneColors, useTheme } from '@/theme';
 
-export default function Tribe() {
+function Tag({ label, tone }: { label: string; tone: 'accent' | 'green' | 'muted' }) {
+  const c = useTheme().colors;
+  const color = tone === 'accent' ? c.accent : tone === 'green' ? c.secondary : c.textMuted;
+  return (
+    <View style={{ backgroundColor: c.surfaceSoft, borderRadius: radius.pill, paddingVertical: 3, paddingHorizontal: 8 }}>
+      <Text variant="small" color={color} style={{ fontSize: 10 }}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+function ThreadRow({ thread }: { thread: Thread }) {
   const theme = useTheme();
+  const c = theme.colors;
+  const [g1, g2] = toneColors(thread.tone, c);
+  const tagTone = thread.cat === 'group' ? 'green' : thread.cat === 'connection' ? 'muted' : 'accent';
+
+  return (
+    <Pressable>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: theme.spacing.md,
+          backgroundColor: thread.pinned ? c.surface : 'transparent',
+          borderRadius: radius.lg,
+          borderWidth: thread.pinned ? 1 : 0,
+          borderColor: c.border,
+          paddingVertical: theme.spacing.sm,
+          paddingHorizontal: thread.pinned ? theme.spacing.md : 0,
+        }}
+      >
+        <LinearGradient colors={[g1, g2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ width: 48, height: 48, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' }}>
+          {thread.cat === 'group' ? (
+            <Ionicons name="people" size={20} color={c.textInverse} />
+          ) : (
+            <Text variant="bodyStrong" color={c.textInverse}>
+              {thread.name.charAt(0)}
+            </Text>
+          )}
+        </LinearGradient>
+
+        <View style={{ flex: 1, gap: 3 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <Text variant="bodyStrong" numberOfLines={1} style={{ maxWidth: 150 }}>
+              {thread.name}
+            </Text>
+            {thread.vetted && thread.cat === 'concierge' ? (
+              <Ionicons name="shield-checkmark" size={12} color={c.secondary} />
+            ) : null}
+            <Tag label={thread.tag} tone={tagTone} />
+            {thread.crew ? <Tag label="+ Crew" tone="green" /> : null}
+            {thread.pinned ? (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                <Ionicons name="pin" size={11} color={c.textMuted} />
+                <Text variant="small" color={c.textMuted} style={{ fontSize: 10 }}>
+                  Pinned
+                </Text>
+              </View>
+            ) : null}
+          </View>
+          <Text variant="small" color={c.textMuted} numberOfLines={1}>
+            {thread.last}
+          </Text>
+        </View>
+
+        <View style={{ alignItems: 'flex-end', gap: 6 }}>
+          <Text variant="small" color={c.textMuted}>
+            {thread.time}
+          </Text>
+          {thread.unread ? (
+            <View style={{ minWidth: 20, height: 20, borderRadius: 10, backgroundColor: c.primary, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 5 }}>
+              <Text variant="small" color={c.primaryContent} style={{ fontSize: 11 }}>
+                {thread.unread}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+export default function MyTribe() {
+  const theme = useTheme();
+  const c = theme.colors;
+  const { tribe } = useOnboarding();
+  const name = tribeName(tribe?.archetype.name);
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [filter, setFilter] = useState<string>('all');
+
+  useEffect(() => {
+    getThreads().then(setThreads);
+  }, []);
+
+  const shown = threads.filter((t) => {
+    if (filter === 'all') return true;
+    if (filter === 'group') return t.crew || t.cat === 'group';
+    return t.cat === filter;
+  });
+
+  const [ag1, ag2] = toneColors('cool', c);
+
   return (
     <Screen scroll>
-      <View style={{ gap: theme.spacing.xs }}>
-        <Text variant="label" color={theme.colors.accent}>
-          Tribe
-        </Text>
-        <Text variant="h1">Your people + support</Text>
-      </View>
-
-      <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
-          <Ionicons name="chatbubbles-outline" size={26} color={theme.colors.primary} />
-          <View style={{ flex: 1 }}>
-            <Text variant="title">Concierge</Text>
-            <Text variant="small">A local team, always within reach — no booking required.</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
+        <LinearGradient colors={[ag1, ag2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ width: 52, height: 52, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' }}>
+          <Text variant="h2" color={c.textInverse}>
+            A
+          </Text>
+        </LinearGradient>
+        <View style={{ flex: 1, gap: 4 }}>
+          <Text variant="display">MyTribe</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+            <TribeBadge label={name} />
+            <Text variant="small" color={c.textMuted}>
+              You · Amara
+            </Text>
           </View>
         </View>
-      </Card>
+        <View style={{ width: 40, height: 40, borderRadius: radius.md, borderWidth: 1, borderColor: c.border, alignItems: 'center', justifyContent: 'center' }}>
+          <Ionicons name="qr-code-outline" size={18} color={c.textMuted} />
+        </View>
+      </View>
 
-      <Card soft>
-        <Text variant="label" color={theme.colors.textMuted}>
-          Next in the build
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, backgroundColor: c.surface, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 12, paddingHorizontal: theme.spacing.lg }}>
+        <Ionicons name="search" size={18} color={c.textMuted} />
+        <Text variant="body" color={c.textMuted}>
+          Search your tribe
         </Text>
-        <Text variant="muted">
-          Group chat, companions, and a moderated concierge thread land with the group-planning
-          phase.
-        </Text>
-      </Card>
+      </View>
+
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.sm }}>
+        {tribeFilters.map((f) => (
+          <SelectionPill key={f.id} label={f.label} selected={filter === f.id} onPress={() => setFilter(f.id)} />
+        ))}
+      </View>
+
+      <View style={{ gap: theme.spacing.xs }}>
+        {shown.map((t) => (
+          <ThreadRow key={t.id} thread={t} />
+        ))}
+      </View>
+
+      <Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md, backgroundColor: `${c.house}1A`, borderRadius: radius.lg, borderWidth: 1, borderColor: `${c.house}55`, padding: theme.spacing.lg }}>
+          <View style={{ width: 44, height: 44, borderRadius: radius.md, backgroundColor: `${c.house}22`, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name="alert-circle" size={22} color={c.house} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text variant="bodyStrong" color={c.house}>
+              {dispatch.title}
+            </Text>
+            <Text variant="small" color={c.textMuted}>
+              {dispatch.subtitle}
+            </Text>
+          </View>
+          <Text variant="small" color={c.house} style={{ fontFamily: theme.fonts.bodyBold }}>
+            {dispatch.cta} ›
+          </Text>
+        </View>
+      </Pressable>
     </Screen>
   );
 }

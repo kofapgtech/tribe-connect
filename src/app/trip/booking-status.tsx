@@ -1,39 +1,15 @@
 import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
-import type { BookingItem } from '@/data/trip';
+import { HostCard } from '@/components/HostCard';
+import { StatusPill } from '@/components/StatusPill';
+import { hosts } from '@/data';
 import { useTrip } from '@/state/trip';
-import { radius, useTheme } from '@/theme';
-
-function StatusPill({ status }: { status: BookingItem['status'] }) {
-  const theme = useTheme();
-  const confirmed = status === 'confirmed';
-  const color = confirmed ? theme.colors.secondary : theme.colors.accent;
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
-        alignSelf: 'flex-start',
-        backgroundColor: theme.colors.surfaceSoft,
-        borderRadius: radius.pill,
-        paddingVertical: 4,
-        paddingHorizontal: 10,
-      }}
-    >
-      <Ionicons name={confirmed ? 'checkmark-circle' : 'time-outline'} size={14} color={color} />
-      <Text variant="small" color={color}>
-        {confirmed ? 'Confirmed' : 'Pending'}
-      </Text>
-    </View>
-  );
-}
+import { useTheme } from '@/theme';
 
 export default function BookingStatus() {
   const router = useRouter();
@@ -67,8 +43,22 @@ export default function BookingStatus() {
 
       {bookingItems.map((b) => {
         const pending = b.status === 'pending';
+        const host = b.hostId ? hosts.find((h) => h.id === b.hostId) : null;
+
+        if (host) {
+          return (
+            <HostCard
+              key={b.id}
+              host={host}
+              context={b.detail}
+              status={b.status}
+              onPress={pending ? () => confirmPending() : undefined}
+            />
+          );
+        }
+
         const row = (
-          <Card key={b.id} soft={pending}>
+          <Card soft={pending}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <Text variant="title">{b.title}</Text>
               <StatusPill status={b.status} />
@@ -81,7 +71,7 @@ export default function BookingStatus() {
             {row}
           </Pressable>
         ) : (
-          row
+          <View key={b.id}>{row}</View>
         );
       })}
 

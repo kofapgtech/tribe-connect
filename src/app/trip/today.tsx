@@ -5,7 +5,9 @@ import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { HostCard } from '@/components/HostCard';
 import { seedToday } from '@/data/trip';
+import { hosts } from '@/data';
 import { radius, useTheme } from '@/theme';
 
 export default function Today() {
@@ -13,7 +15,7 @@ export default function Today() {
   const theme = useTheme();
 
   return (
-    <Screen scroll footer={<Button label="Message concierge" variant="secondary" onPress={() => {}} />}>
+    <Screen scroll footer={<Button label="Message concierge" variant="ghost" onPress={() => {}} />}>
       <View style={{ gap: theme.spacing.xs }}>
         <Text variant="label" color={theme.colors.accent}>
           Today
@@ -37,28 +39,30 @@ export default function Today() {
         </Text>
       </View>
 
-      {seedToday.map((item) => (
-        <Card key={item.id}>
-          <View style={{ flexDirection: 'row', gap: theme.spacing.md }}>
+      {seedToday.map((item) => {
+        const host = item.hostId ? hosts.find((h) => h.id === item.hostId) : null;
+        return (
+          <View key={item.id} style={{ flexDirection: 'row', gap: theme.spacing.md }}>
             <Text variant="bodyStrong" color={theme.colors.secondary}>
               {item.time}
             </Text>
             <View style={{ flex: 1 }}>
-              <Text variant="title">{item.title}</Text>
-              {item.detail ? <Text variant="muted">{item.detail}</Text> : null}
-              {item.hostId ? (
-                <View style={{ marginTop: theme.spacing.sm }}>
-                  <Button
-                    label="Meet your host"
-                    variant="secondary"
-                    onPress={() => router.push({ pathname: '/host/[id]', params: { id: item.hostId! } })}
-                  />
-                </View>
-              ) : null}
+              {host ? (
+                <HostCard
+                  host={host}
+                  context={item.detail ? `${item.title} · ${item.detail}` : item.title}
+                  onPress={() => router.push({ pathname: '/host/[id]', params: { id: host.id } })}
+                />
+              ) : (
+                <Card>
+                  <Text variant="title">{item.title}</Text>
+                  {item.detail ? <Text variant="muted">{item.detail}</Text> : null}
+                </Card>
+              )}
             </View>
           </View>
-        </Card>
-      ))}
+        );
+      })}
     </Screen>
   );
 }

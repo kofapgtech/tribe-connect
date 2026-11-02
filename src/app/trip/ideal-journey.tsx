@@ -1,11 +1,12 @@
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
+import { SelectionPill } from '@/components/SelectionPill';
 import { paceOptions, vibeOptions } from '@/data/trip';
 import { useTrip } from '@/state/trip';
-import { radius, useTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 export default function IdealJourney() {
   const router = useRouter();
@@ -26,53 +27,29 @@ export default function IdealJourney() {
       </View>
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.md }}>
-        {vibeOptions.map((v) => {
-          const on = vibe.includes(v.id);
-          return (
-            <Pressable key={v.id} onPress={() => toggleVibe(v.id)} style={{ width: '47%' }}>
-              <View
-                style={{
-                  backgroundColor: on ? theme.colors.primary : theme.colors.surface,
-                  borderColor: on ? theme.colors.primary : theme.colors.border,
-                  borderWidth: 1,
-                  borderRadius: radius.pill,
-                  paddingVertical: 14,
-                  alignItems: 'center',
-                }}
-              >
-                <Text variant="bodyStrong" color={on ? theme.colors.primaryContent : theme.colors.text}>
-                  {v.label}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        })}
+        {vibeOptions.map((v) => (
+          <SelectionPill
+            key={v.id}
+            label={v.label}
+            selected={vibe.includes(v.id)}
+            onPress={() => toggleVibe(v.id)}
+            style={{ width: '47%' }}
+          />
+        ))}
       </View>
 
       <View style={{ gap: theme.spacing.sm }}>
         <Text variant="title">Pace</Text>
         <View style={{ flexDirection: 'row', gap: theme.spacing.sm }}>
-          {paceOptions.map((p) => {
-            const on = pace === p.id;
-            return (
-              <Pressable key={p.id} onPress={() => setPace(p.id)} style={{ flex: 1 }}>
-                <View
-                  style={{
-                    backgroundColor: on ? theme.colors.surfaceSoft : theme.colors.surface,
-                    borderColor: on ? theme.colors.secondary : theme.colors.border,
-                    borderWidth: 1,
-                    borderRadius: radius.md,
-                    paddingVertical: 12,
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text variant="bodyStrong" color={on ? theme.colors.primary : theme.colors.textMuted}>
-                    {p.label}
-                  </Text>
-                </View>
-              </Pressable>
-            );
-          })}
+          {paceOptions.map((p) => (
+            <SelectionPill
+              key={p.id}
+              label={p.label}
+              selected={pace === p.id}
+              onPress={() => setPace(p.id)}
+              style={{ flex: 1 }}
+            />
+          ))}
         </View>
       </View>
 

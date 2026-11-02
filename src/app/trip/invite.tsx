@@ -98,7 +98,7 @@ export default function Invite() {
                 <Button label="Accept" onPress={() => acceptRequest(r.id)} />
               </View>
               <View style={{ flex: 1 }}>
-                <Button label="Decline" variant="secondary" onPress={() => declineRequest(r.id)} />
+                <Button label="Decline" variant="ghost" onPress={() => declineRequest(r.id)} />
               </View>
             </View>
           </Card>

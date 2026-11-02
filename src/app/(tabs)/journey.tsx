@@ -103,7 +103,7 @@ export default function Journey() {
           <Button label="Open today" onPress={() => router.push('/trip/today')} />
           <Button
             label="Meet your host"
-            variant="secondary"
+            variant="ghost"
             onPress={() => router.push({ pathname: '/host/[id]', params: { id: 'host-abena' } })}
           />
         </>

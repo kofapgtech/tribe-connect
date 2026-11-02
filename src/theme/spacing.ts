@@ -20,3 +20,18 @@ export const layout = {
   maxContentWidth: 520,
   screenPadding: spacing.xl,
 } as const;
+
+/**
+ * One shadow language for the whole app. A single, subtle elevation used by
+ * cards — no per-component bespoke shadows. Kept gentle so it reads as depth
+ * on the dark ink ground rather than a hard drop shadow.
+ */
+export const elevation = {
+  card: {
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 18,
+    elevation: 5,
+  },
+} as const;

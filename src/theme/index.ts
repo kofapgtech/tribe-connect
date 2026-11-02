@@ -2,7 +2,7 @@ import { useRevealedTribeId } from '@/state/onboarding';
 import { darkColors, lightColors, palette, type ThemeColors } from './colors';
 import { accentForTribe } from './tribeAccent';
 import { fonts, textVariants, type TextVariant } from './typography';
-import { layout, radius, spacing } from './spacing';
+import { elevation, layout, radius, spacing } from './spacing';
 
 export type Theme = {
   colors: ThemeColors;
@@ -10,6 +10,7 @@ export type Theme = {
   radius: typeof radius;
   layout: typeof layout;
   fonts: typeof fonts;
+  elevation: typeof elevation;
   isDark: boolean;
 };
 
@@ -28,10 +29,11 @@ export function useTheme(): Theme {
     radius,
     layout,
     fonts,
+    elevation,
     isDark: true,
   };
 }
 
-export { palette, lightColors, darkColors, spacing, radius, layout, fonts, textVariants };
+export { palette, lightColors, darkColors, spacing, radius, layout, elevation, fonts, textVariants };
 export { accentForTribe, designSystemAccents, tribeAccentById } from './tribeAccent';
 export type { ThemeColors, TextVariant };

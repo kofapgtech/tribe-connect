@@ -22,6 +22,7 @@ export function Card({
           borderWidth: 1,
           borderColor: theme.colors.border,
           gap: theme.spacing.sm,
+          ...theme.elevation.card,
         },
         style,
       ]}

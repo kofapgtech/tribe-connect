@@ -4,7 +4,9 @@ import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { HostCard } from '@/components/HostCard';
 import { priceSummary } from '@/data/trip';
+import { hosts } from '@/data';
 import { useTrip } from '@/state/trip';
 import { useTheme } from '@/theme';
 
@@ -36,12 +38,18 @@ export default function BookingReview() {
         </Text>
       </View>
 
-      {bookingItems.map((b) => (
-        <Card key={b.id}>
-          <Text variant="title">{b.title}</Text>
-          <Text variant="muted">{b.detail}</Text>
-        </Card>
-      ))}
+      {bookingItems.map((b) => {
+        const host = b.hostId ? hosts.find((h) => h.id === b.hostId) : null;
+        if (host) {
+          return <HostCard key={b.id} host={host} context={`${b.title} · ${b.detail}`} />;
+        }
+        return (
+          <Card key={b.id}>
+            <Text variant="title">{b.title}</Text>
+            <Text variant="muted">{b.detail}</Text>
+          </Card>
+        );
+      })}
 
       <Card soft>
         <Text variant="title">Price summary</Text>

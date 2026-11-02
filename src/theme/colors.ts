@@ -15,12 +15,21 @@
  */
 
 export const palette = {
-  red: '#DB1F26',
-  green: '#008041',
+  // Master palette — base colors (dark "ink" design system).
+  green: '#22B26A', // action (also the logo-arc green)
+  greenBright: '#34C878', // the confirm pop only
+  gold: '#E7AC45', // accent (default tribe)
+  ochre: '#C2862F', // accent-2, for gradients / depth
   black: '#000000',
-  cream: '#F2E8CE',
+  white: '#FFFFFF',
 
-  redDeep: '#B3191F',
+  // The house color — brand red, reserved for the logo arc / brand moments.
+  house: '#FF4A50',
+  houseContent: '#F4EEE1',
+
+  // Legacy cream-theme values — referenced only by the (unused) light palette.
+  red: '#DB1F26',
+  cream: '#F2E8CE',
   greenDeep: '#00693A',
   ink: '#1A1712',
   charcoal: '#141210',
@@ -29,11 +38,6 @@ export const palette = {
   creamSoft: '#ECDFBA',
   border: '#D8C79B',
   mutedText: '#6E664F',
-  white: '#FFFFFF',
-
-  // The house color — brand red, reserved for the logo arc / brand moments.
-  house: '#F0434A',
-  houseContent: '#F2E8CE',
 } as const;
 
 export type ThemeColors = {
@@ -88,25 +92,25 @@ export const lightColors: ThemeColors = {
 // design system; the `accent` here is the default (Seekers gold) and is
 // overridden per revealed tribe in useTheme().
 export const darkColors: ThemeColors = {
-  background: '#0C0A07',
-  surface: '#16120C',
-  surfaceSoft: '#1E1811',
-  surfaceInverse: '#0A0806',
-  primary: '#1FA85F',
+  background: '#0A0807',
+  surface: '#221B10',
+  surfaceSoft: '#342816',
+  surfaceInverse: '#060504',
+  primary: '#22B26A',
   primaryContent: '#06130B',
-  secondary: '#1FA85F',
-  accent: '#E0A43B',
+  secondary: '#22B26A',
+  accent: '#E7AC45',
   accentContent: '#1B1403',
-  text: '#F2E8CE',
-  textMuted: '#A49A84',
-  textInverse: '#F2E8CE',
-  border: '#2A2318',
-  borderInverse: '#3A3123',
-  tabBg: '#0A0806',
-  tabActive: '#F2E8CE',
-  tabInactive: '#766C58',
-  success: '#1FA85F',
-  warning: '#E0B64A',
-  house: '#F0434A',
-  houseContent: '#F2E8CE',
+  text: '#F4EEE1',
+  textMuted: '#A79E8C',
+  textInverse: '#F4EEE1',
+  border: '#4B3B21',
+  borderInverse: '#5A4A2B',
+  tabBg: '#060504',
+  tabActive: '#E7AC45',
+  tabInactive: '#6E6655',
+  success: '#22B26A',
+  warning: '#E7AC45',
+  house: '#FF4A50',
+  houseContent: '#F4EEE1',
 };

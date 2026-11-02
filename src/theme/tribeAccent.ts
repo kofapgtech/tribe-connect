@@ -27,11 +27,13 @@ export type AccentPair = {
 
 /** The design system's canonical 8-tribe accent palette. */
 export const designSystemAccents = {
-  seekers: { accent: '#E0A43B', accentContent: '#1B1403' },
+  seekers: { accent: '#E7AC45', accentContent: '#1B1403' }, // master palette gold
   builders: { accent: '#B07426', accentContent: '#1B1403' },
   makers: { accent: '#BF5A33', accentContent: '#22100A' },
   revelers: { accent: '#E07856', accentContent: '#2A0F06' },
-  keepers: { accent: '#7E4A6E', accentContent: '#FBEEF7' },
+  // Keepers nudged from #7E4A6E (2.9:1 on the new ink #0A0807, failed AA)
+  // to #9E6690 (4.5:1) so griot's accent stays legible as text on ground.
+  keepers: { accent: '#9E6690', accentContent: '#FBEEF7' },
   connectors: { accent: '#8C72AE', accentContent: '#140B22' },
   restorers: { accent: '#2E8F6A', accentContent: '#EEFAF2' },
   stewards: { accent: '#6E8B57', accentContent: '#0C1407' },

@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { SelectionPill } from '@/components/SelectionPill';
 import { TribeBadge, tribeName } from '@/components/TribeBadge';
+import { ConversationView } from '@/components/ConversationView';
+import { DispatchSheet } from '@/components/DispatchSheet';
+import { Toast, useToast } from '@/components/Toast';
 import { dispatch, getThreads, tribeFilters } from '@/data';
 import type { Thread } from '@/data/types';
 import { useOnboarding } from '@/state/onboarding';
@@ -23,14 +26,14 @@ function Tag({ label, tone }: { label: string; tone: 'accent' | 'green' | 'muted
   );
 }
 
-function ThreadRow({ thread }: { thread: Thread }) {
+function ThreadRow({ thread, onPress }: { thread: Thread; onPress: () => void }) {
   const theme = useTheme();
   const c = theme.colors;
   const [g1, g2] = toneColors(thread.tone, c);
   const tagTone = thread.cat === 'group' ? 'green' : thread.cat === 'connection' ? 'muted' : 'accent';
 
   return (
-    <Pressable>
+    <Pressable onPress={onPress} accessibilityRole="button">
       <View
         style={{
           flexDirection: 'row',
@@ -102,20 +105,27 @@ export default function MyTribe() {
   const name = tribeName(tribe?.archetype.name);
   const [threads, setThreads] = useState<Thread[]>([]);
   const [filter, setFilter] = useState<string>('all');
+  const [search, setSearch] = useState('');
+  const [openThread, setOpenThread] = useState<Thread | null>(null);
+  const [dispatchOpen, setDispatchOpen] = useState(false);
+  const { message, show } = useToast();
 
   useEffect(() => {
     getThreads().then(setThreads);
   }, []);
 
+  const q = search.trim().toLowerCase();
   const shown = threads.filter((t) => {
-    if (filter === 'all') return true;
-    if (filter === 'group') return t.crew || t.cat === 'group';
-    return t.cat === filter;
+    const matchesFilter =
+      filter === 'all' ? true : filter === 'group' ? t.crew || t.cat === 'group' : t.cat === filter;
+    const matchesSearch = q === '' || t.name.toLowerCase().includes(q) || t.last.toLowerCase().includes(q);
+    return matchesFilter && matchesSearch;
   });
 
   const [ag1, ag2] = toneColors('cool', c);
 
   return (
+    <View style={{ flex: 1 }}>
     <Screen scroll>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
         <LinearGradient colors={[ag1, ag2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ width: 52, height: 52, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' }}>
@@ -137,11 +147,15 @@ export default function MyTribe() {
         </View>
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, backgroundColor: c.surface, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 12, paddingHorizontal: theme.spacing.lg }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, backgroundColor: c.surface, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 4, paddingHorizontal: theme.spacing.lg }}>
         <Ionicons name="search" size={18} color={c.textMuted} />
-        <Text variant="body" color={c.textMuted}>
-          Search your tribe
-        </Text>
+        <TextInput
+          value={search}
+          onChangeText={setSearch}
+          placeholder="Search your tribe"
+          placeholderTextColor={c.textMuted}
+          style={{ flex: 1, paddingVertical: 10, color: c.text, fontFamily: theme.fonts.body, fontSize: 16 }}
+        />
       </View>
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.sm }}>
@@ -152,11 +166,16 @@ export default function MyTribe() {
 
       <View style={{ gap: theme.spacing.xs }}>
         {shown.map((t) => (
-          <ThreadRow key={t.id} thread={t} />
+          <ThreadRow key={t.id} thread={t} onPress={() => setOpenThread(t)} />
         ))}
+        {shown.length === 0 ? (
+          <Text variant="muted" color={c.textMuted}>
+            No one matches that.
+          </Text>
+        ) : null}
       </View>
 
-      <Pressable>
+      <Pressable onPress={() => setDispatchOpen(true)} accessibilityRole="button">
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md, backgroundColor: `${c.house}1A`, borderRadius: radius.lg, borderWidth: 1, borderColor: `${c.house}55`, padding: theme.spacing.lg }}>
           <View style={{ width: 44, height: 44, borderRadius: radius.md, backgroundColor: `${c.house}22`, alignItems: 'center', justifyContent: 'center' }}>
             <Ionicons name="alert-circle" size={22} color={c.house} />
@@ -175,5 +194,14 @@ export default function MyTribe() {
         </View>
       </Pressable>
     </Screen>
+
+      <ConversationView thread={openThread} onClose={() => setOpenThread(null)} />
+      <DispatchSheet
+        visible={dispatchOpen}
+        onClose={() => setDispatchOpen(false)}
+        onPick={(label) => show(`${label} — Dispatch is on it ✓`)}
+      />
+      <Toast message={message} />
+    </View>
   );
 }

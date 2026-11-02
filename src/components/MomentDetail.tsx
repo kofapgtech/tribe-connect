@@ -23,7 +23,15 @@ function toneColors(tone: 'gold' | 'warm' | 'cool', accent: string, surfaceInver
 
 /** "Read more" detail overlay for a media moment: full caption, the maker as
  *  a HostCard, and the action button(s). */
-export function MomentDetail({ moment, onClose }: { moment: MediaMoment | null; onClose: () => void }) {
+export function MomentDetail({
+  moment,
+  onClose,
+  onShare,
+}: {
+  moment: MediaMoment | null;
+  onClose: () => void;
+  onShare?: () => void;
+}) {
   const theme = useTheme();
   const router = useRouter();
   const c = theme.colors;
@@ -96,6 +104,16 @@ export function MomentDetail({ moment, onClose }: { moment: MediaMoment | null; 
 
               {moment.action ? (
                 <Button label={moment.action.label} onPress={() => act(moment.action!.dest)} />
+              ) : null}
+              {onShare ? (
+                <Pressable onPress={onShare} accessibilityRole="button">
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 13 }}>
+                    <Ionicons name="paper-plane-outline" size={16} color={c.accent} />
+                    <Text variant="bodyStrong" color={c.accent}>
+                      Send to MyTribe
+                    </Text>
+                  </View>
+                </Pressable>
               ) : null}
               <Button label="Close" variant="ghost" onPress={onClose} />
             </ScrollView>

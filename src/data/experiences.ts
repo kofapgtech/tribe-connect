@@ -83,6 +83,17 @@ export const hosts: Host[] = [
     rating: 0,
     reviewCount: 0,
   },
+  // The member themselves — used when they post a moment from the composer.
+  {
+    id: 'host-you',
+    name: 'You',
+    role: 'Traveler · Accra',
+    bio: 'Sharing moments from your journey.',
+    interests: ['community'],
+    verified: false,
+    rating: 0,
+    reviewCount: 0,
+  },
 ];
 
 export const experiences: Experience[] = [

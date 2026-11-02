@@ -8,6 +8,8 @@ import { Text } from '@/components/Text';
 import { MomentCard } from '@/components/MomentCard';
 import { MomentDetail } from '@/components/MomentDetail';
 import { NewPostSheet } from '@/components/NewPostSheet';
+import { ShareSheet } from '@/components/ShareSheet';
+import { Toast, useToast } from '@/components/Toast';
 import { SegmentedToggle } from '@/components/SegmentedToggle';
 import { TribeBadge, tribeName } from '@/components/TribeBadge';
 import { getMoments, getPinnedLead, hosts } from '@/data';
@@ -78,6 +80,8 @@ export default function TribeConnect() {
   const [selected, setSelected] = useState<MediaMoment | null>(null);
   const [composer, setComposer] = useState(false);
   const [lens, setLens] = useState<'tribe' | 'everyone'>('tribe');
+  const [shareOpen, setShareOpen] = useState(false);
+  const { message, show } = useToast();
 
   useEffect(() => {
     getMoments().then(setMoments);
@@ -85,6 +89,23 @@ export default function TribeConnect() {
   }, []);
 
   const name = tribeName(tribe?.archetype.name);
+  const shown = lens === 'everyone' ? moments : moments.filter((m) => m.mine !== false);
+
+  const onPost = ({ caption, audience }: { caption: string; tags: string[]; audience: 'tribe' | 'everyone' }) => {
+    const text = caption.trim();
+    const newMoment: MediaMoment = {
+      type: 'media',
+      id: `m-you-${Date.now()}`,
+      hostId: 'host-you',
+      tone: 'gold',
+      mediaCaption: text ? text.slice(0, 40) : 'Your new moment',
+      caption: text || 'Shared a new moment from your journey.',
+      mine: audience === 'tribe',
+    };
+    setMoments((prev) => [newMoment, ...prev]);
+    setLens(audience); // make sure the new post is visible in the current lens
+    show('Posted to your feed ✓');
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -113,7 +134,7 @@ export default function TribeConnect() {
 
         {lead ? <PinnedLeadCard lead={lead} onPress={() => router.push('/tribe')} /> : null}
 
-        {moments.map((m) => (
+        {shown.map((m) => (
           <MomentCard key={m.id} moment={m} onOpen={(mm) => mm.type === 'media' && setSelected(mm)} />
         ))}
       </Screen>
@@ -139,8 +160,21 @@ export default function TribeConnect() {
         </View>
       </Pressable>
 
-      <NewPostSheet visible={composer} onClose={() => setComposer(false)} />
-      <MomentDetail moment={selected} onClose={() => setSelected(null)} />
+      <NewPostSheet visible={composer} onClose={() => setComposer(false)} onPost={onPost} />
+      <MomentDetail
+        moment={selected}
+        onClose={() => setSelected(null)}
+        onShare={() => {
+          setSelected(null);
+          setShareOpen(true);
+        }}
+      />
+      <ShareSheet
+        visible={shareOpen}
+        onClose={() => setShareOpen(false)}
+        onSent={(n) => show(`Sent to ${n} in MyTribe ✓`)}
+      />
+      <Toast message={message} />
     </View>
   );
 }

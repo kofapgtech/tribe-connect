@@ -70,3 +70,47 @@ export interface Experience {
   hostId: string;
   categoryId: InterestCategoryId;
 }
+
+// ---------------- TribeConnect feed (moments) ----------------
+
+/** Where a moment's action button sends the member (a main-app tab). */
+export type MomentActionDest = 'MyJourney' | 'Exchange' | 'MyTribe';
+
+export interface MomentAction {
+  label: string; // "Add to your Journey" | "Buy" | "Book"
+  dest: MomentActionDest;
+}
+
+/** A maker/member post with media, a caption, an optional price + action. */
+export interface MediaMoment {
+  type: 'media';
+  id: string;
+  hostId: string; // the maker/member behind the post
+  tone: 'gold' | 'warm' | 'cool'; // placeholder-gradient tone (token-based)
+  mediaCaption: string; // caption on the media itself
+  caption: string; // the post caption / "read more" body
+  price?: string;
+  action?: MomentAction; // the primary action (absent for a plain traveler post)
+}
+
+/** An event the member can join. */
+export interface GatheringMoment {
+  type: 'gathering';
+  id: string;
+  day: string; // "Fri"
+  place: string; // "Osu"
+  title: string;
+  going: number;
+  attendees: string[]; // initials for the avatar row
+  action: MomentAction; // dest: MyTribe (or Exchange for the market)
+}
+
+/** A short note from the concierge, tappable to message them. */
+export interface NoteMoment {
+  type: 'note';
+  id: string;
+  title: string;
+  text: string;
+}
+
+export type Moment = MediaMoment | GatheringMoment | NoteMoment;

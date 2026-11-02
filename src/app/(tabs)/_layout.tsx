@@ -3,9 +3,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { fonts, useTheme } from '@/theme';
 
 /**
- * Four branded tabs from the founder's IA: Journey / Connect / Tribe / Exchange.
- * Icons are Ionicons placeholders — the brand calls for Adinkra symbols
- * (arrow / broom / print / circle), an open design item.
+ * The guest main app: TribeConnect (the feed) is the post-reveal landing,
+ * then MyJourney, MyTribe, and Exchange (a "Soon" teaser).
+ * Icons are Ionicons placeholders — custom Adinkra symbols are a later task.
  */
 export default function TabsLayout() {
   const theme = useTheme();
@@ -23,23 +23,23 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="journey"
+        name="tribeconnect"
         options={{
-          title: 'Journey',
-          tabBarIcon: ({ color, size }) => <Ionicons name="map-outline" size={size} color={color as string} />,
+          title: 'TribeConnect',
+          tabBarIcon: ({ color, size }) => <Ionicons name="sparkles-outline" size={size} color={color as string} />,
         }}
       />
       <Tabs.Screen
-        name="connect"
+        name="journey"
         options={{
-          title: 'Connect',
-          tabBarIcon: ({ color, size }) => <Ionicons name="sparkles-outline" size={size} color={color as string} />,
+          title: 'MyJourney',
+          tabBarIcon: ({ color, size }) => <Ionicons name="map-outline" size={size} color={color as string} />,
         }}
       />
       <Tabs.Screen
         name="tribe"
         options={{
-          title: 'Tribe',
+          title: 'MyTribe',
           tabBarIcon: ({ color, size }) => <Ionicons name="people-outline" size={size} color={color as string} />,
         }}
       />

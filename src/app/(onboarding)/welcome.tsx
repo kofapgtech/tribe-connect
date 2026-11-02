@@ -46,7 +46,7 @@ export default function Welcome() {
 
       <View style={{ gap: theme.spacing.md }}>
         <Button label="Discover my tribe" onPress={() => router.push('/interests')} />
-        <Button label="Explore Ghana first" variant="ghost" onPress={() => router.replace('/journey')} />
+        <Button label="Explore Ghana first" variant="ghost" onPress={() => router.replace('/tribeconnect')} />
         <Text variant="small" center>
           Explore freely. Save when you are ready.
         </Text>

@@ -91,6 +91,7 @@ export interface MediaMoment {
   caption: string; // the post caption / "read more" body
   price?: string;
   action?: MomentAction; // the primary action (absent for a plain traveler post)
+  mine?: boolean; // true = shown under "My tribe"; false = Everyone-only
 }
 
 /** An event the member can join. */
@@ -103,6 +104,7 @@ export interface GatheringMoment {
   going: number;
   attendees: string[]; // initials for the avatar row
   action: MomentAction; // dest: MyTribe (or Exchange for the market)
+  mine?: boolean;
 }
 
 /** A short note from the concierge, tappable to message them. */
@@ -111,6 +113,7 @@ export interface NoteMoment {
   id: string;
   title: string;
   text: string;
+  mine?: boolean;
 }
 
 export type Moment = MediaMoment | GatheringMoment | NoteMoment;
@@ -197,4 +200,10 @@ export interface Thread {
 export interface TribeFilter {
   id: 'all' | ThreadCat;
   label: string;
+}
+
+/** A single message in a thread's mock conversation. */
+export interface ChatMessage {
+  from: 'them' | 'me' | 'sys';
+  text: string;
 }

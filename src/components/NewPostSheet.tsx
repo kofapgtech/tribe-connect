@@ -9,7 +9,15 @@ import { interestCategories } from '@/data';
 import { radius, useTheme } from '@/theme';
 
 /** The New Post composer, opened from the floating + on the feed. */
-export function NewPostSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+export function NewPostSheet({
+  visible,
+  onClose,
+  onPost,
+}: {
+  visible: boolean;
+  onClose: () => void;
+  onPost: (data: { caption: string; tags: string[]; audience: 'tribe' | 'everyone' }) => void;
+}) {
   const theme = useTheme();
   const c = theme.colors;
   const [caption, setCaption] = useState('');
@@ -18,6 +26,14 @@ export function NewPostSheet({ visible, onClose }: { visible: boolean; onClose: 
 
   const toggleTag = (id: string) =>
     setTags((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+
+  const submit = () => {
+    onPost({ caption, tags, audience });
+    setCaption('');
+    setTags([]);
+    setAudience('tribe');
+    onClose();
+  };
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -116,7 +132,7 @@ export function NewPostSheet({ visible, onClose }: { visible: boolean; onClose: 
               </Text>
             </View>
 
-            <Button label="Post" onPress={onClose} />
+            <Button label="Post" onPress={submit} />
             <Button label="Cancel" variant="ghost" onPress={onClose} />
           </ScrollView>
         </View>

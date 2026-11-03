@@ -61,6 +61,7 @@ export const seedMoments: Moment[] = [
     tone: 'warm',
     mediaCaption: 'Rooftop sundown, Osu',
     caption: 'First trip home and already a favourite spot. Golden hour over Osu never misses.',
+    mine: false,
   },
   {
     type: 'note',
@@ -98,6 +99,7 @@ export const seedMoments: Moment[] = [
     going: 14,
     attendees: ['K', 'A', 'E'],
     action: { label: 'See the market', dest: 'Exchange' },
+    mine: false,
   },
 ];
 

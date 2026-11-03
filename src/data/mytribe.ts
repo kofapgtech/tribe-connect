@@ -1,5 +1,5 @@
 import { query } from './client';
-import type { Thread, TribeFilter } from './types';
+import type { ChatMessage, Thread, TribeFilter } from './types';
 
 /** Filter lenses for the people/threads list. */
 export const tribeFilters: TribeFilter[] = [
@@ -26,6 +26,36 @@ export const dispatch = {
   title: 'Dispatch',
   subtitle: '24/7 help line · tap if anything goes wrong',
   cta: 'Get help',
+};
+
+/** Mock conversation per thread (for the chat view). */
+export const conversations: Record<string, ChatMessage[]> = {
+  group: [
+    { from: 'sys', text: 'Crew · 5 people' },
+    { from: 'them', text: "Ama: can't wait for Friday dinner!" },
+    { from: 'them', text: 'Kwame: I can run everyone there and back 🚗' },
+    { from: 'me', text: "Same, counting down. What time are we meeting?" },
+  ],
+  nav: [
+    { from: 'sys', text: 'Kwame is your Navigator for the whole stay.' },
+    { from: 'them', text: "6 min away — I'll meet you at the lighthouse gate." },
+    { from: 'me', text: 'Perfect, heading down now.' },
+  ],
+  concierge: [
+    { from: 'sys', text: 'Concierge · vetted by Tribe Connect' },
+    { from: 'them', text: 'Your Kente workshop is confirmed ✓' },
+    { from: 'them', text: 'Anything else you need for tomorrow?' },
+  ],
+  kwabena: [
+    { from: 'them', text: 'Come by the loom whenever you like.' },
+    { from: 'me', text: 'Would love to — maybe Thursday afternoon?' },
+  ],
+  efua: [
+    { from: 'them', text: 'Sunrise at Cape Coast was unreal 🌅' },
+    { from: 'me', text: 'Adding it to my first morning!' },
+  ],
+  maya: [{ from: 'them', text: 'Osu rooftop again tonight?' }],
+  akosua: [{ from: 'them', text: 'Your indigo tote is ready to ship.' }],
 };
 
 export function getThreads() {

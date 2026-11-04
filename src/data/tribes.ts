@@ -24,7 +24,7 @@ export const tribeArchetypes: TribeArchetype[] = [
     blurb:
       'You travel for meaning — heritage, rhythm, and the people who carry the culture. You want the story behind what you see.',
     icon: 'book-outline',
-    affinities: ['tradition', 'music', 'community'],
+    affinities: ['tradition', 'music', 'community', 'reflection'],
   },
   {
     id: 'maker',
@@ -42,7 +42,7 @@ export const tribeArchetypes: TribeArchetype[] = [
     blurb:
       'Food, rest, and care set your pace. You want shared tables, good company, and time that feels restorative.',
     icon: 'leaf-outline',
-    affinities: ['food', 'wellbeing', 'nature'],
+    affinities: ['food', 'wellbeing', 'nature', 'reflection'],
   },
   {
     id: 'connector',

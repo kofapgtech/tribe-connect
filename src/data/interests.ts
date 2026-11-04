@@ -10,7 +10,7 @@ const sub = (
 export const interestCategories: InterestCategory[] = [
   {
     id: 'tradition',
-    label: 'Tradition',
+    label: 'Tradition & Heritage',
     icon: 'book-outline',
     blurb: 'Heritage, roots, and ancestral story.',
     subInterests: [
@@ -22,7 +22,7 @@ export const interestCategories: InterestCategory[] = [
   },
   {
     id: 'music',
-    label: 'Music',
+    label: 'Music & Nightlife',
     icon: 'musical-notes-outline',
     blurb: 'Rhythm, nightlife, and live sound.',
     subInterests: [
@@ -34,7 +34,7 @@ export const interestCategories: InterestCategory[] = [
   },
   {
     id: 'adventure',
-    label: 'Adventure',
+    label: 'Adventure & Outdoors',
     icon: 'compass-outline',
     blurb: 'Trails, coast, and the unexpected.',
     subInterests: [
@@ -45,20 +45,8 @@ export const interestCategories: InterestCategory[] = [
     ],
   },
   {
-    id: 'food',
-    label: 'Food',
-    icon: 'restaurant-outline',
-    blurb: 'Markets, kitchens, and shared tables.',
-    subInterests: [
-      sub('food', 'food-street', 'Street food'),
-      sub('food', 'food-home', 'Home cooking'),
-      sub('food', 'food-markets', 'Markets + sourcing'),
-      sub('food', 'food-fine', 'Chefs + fine dining'),
-    ],
-  },
-  {
     id: 'art',
-    label: 'Art + design',
+    label: 'Art & Creativity',
     icon: 'color-palette-outline',
     blurb: 'Makers, studios, and craft.',
     subInterests: [
@@ -69,20 +57,20 @@ export const interestCategories: InterestCategory[] = [
     ],
   },
   {
-    id: 'wellbeing',
-    label: 'Wellbeing',
-    icon: 'leaf-outline',
-    blurb: 'Rest, care, and a slower pace.',
+    id: 'food',
+    label: 'Food & Flavor',
+    icon: 'restaurant-outline',
+    blurb: 'Markets, kitchens, and shared tables.',
     subInterests: [
-      sub('wellbeing', 'wellbeing-spa', 'Spa + massage'),
-      sub('wellbeing', 'wellbeing-yoga', 'Yoga + movement'),
-      sub('wellbeing', 'wellbeing-beauty', 'Hair + beauty'),
-      sub('wellbeing', 'wellbeing-retreat', 'Quiet + retreat'),
+      sub('food', 'food-street', 'Street food'),
+      sub('food', 'food-home', 'Home cooking'),
+      sub('food', 'food-markets', 'Markets + sourcing'),
+      sub('food', 'food-fine', 'Chefs + fine dining'),
     ],
   },
   {
     id: 'community',
-    label: 'Community',
+    label: 'People & Community',
     icon: 'people-outline',
     blurb: 'People, gatherings, and belonging.',
     subInterests: [
@@ -93,8 +81,32 @@ export const interestCategories: InterestCategory[] = [
     ],
   },
   {
+    id: 'wellbeing',
+    label: 'Rest & Wellbeing',
+    icon: 'leaf-outline',
+    blurb: 'Rest, care, and a slower pace.',
+    subInterests: [
+      sub('wellbeing', 'wellbeing-spa', 'Spa + massage'),
+      sub('wellbeing', 'wellbeing-yoga', 'Yoga + movement'),
+      sub('wellbeing', 'wellbeing-beauty', 'Hair + beauty'),
+      sub('wellbeing', 'wellbeing-retreat', 'Quiet + retreat'),
+    ],
+  },
+  {
+    id: 'enterprise',
+    label: 'Ideas & Enterprise',
+    icon: 'briefcase-outline',
+    blurb: 'Business, building, and investing.',
+    subInterests: [
+      sub('enterprise', 'enterprise-startups', 'Startups + tech'),
+      sub('enterprise', 'enterprise-realestate', 'Real estate'),
+      sub('enterprise', 'enterprise-invest', 'Investing + trade'),
+      sub('enterprise', 'enterprise-networking', 'Networking'),
+    ],
+  },
+  {
     id: 'nature',
-    label: 'Nature',
+    label: 'Nature & Stewardship',
     icon: 'sunny-outline',
     blurb: 'Land, water, and open air.',
     subInterests: [
@@ -105,15 +117,15 @@ export const interestCategories: InterestCategory[] = [
     ],
   },
   {
-    id: 'enterprise',
-    label: 'Enterprise',
-    icon: 'briefcase-outline',
-    blurb: 'Business, building, and investing.',
+    id: 'reflection',
+    label: 'Meaning & Reflection',
+    icon: 'moon-outline',
+    blurb: 'Faith, purpose, and quiet reflection.',
     subInterests: [
-      sub('enterprise', 'enterprise-startups', 'Startups + tech'),
-      sub('enterprise', 'enterprise-realestate', 'Real estate'),
-      sub('enterprise', 'enterprise-invest', 'Investing + trade'),
-      sub('enterprise', 'enterprise-networking', 'Networking'),
+      sub('reflection', 'reflection-faith', 'Faith + spirituality'),
+      sub('reflection', 'reflection-purpose', 'Purpose + legacy'),
+      sub('reflection', 'reflection-solitude', 'Journaling + solitude'),
+      sub('reflection', 'reflection-sacred', 'Sacred sites + pilgrimage'),
     ],
   },
 ];

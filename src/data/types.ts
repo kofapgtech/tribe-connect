@@ -9,7 +9,8 @@ export type InterestCategoryId =
   | 'wellbeing'
   | 'community'
   | 'nature'
-  | 'enterprise';
+  | 'enterprise'
+  | 'reflection';
 
 export type TribeArchetypeId =
   | 'seeker'

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { Rise } from '@/components/motion/Rise';
+import { PressableScale } from '@/components/motion/PressableScale';
 import { Text } from '@/components/Text';
 import { SelectionPill } from '@/components/SelectionPill';
 import { TribeBadge, tribeName } from '@/components/TribeBadge';
@@ -34,7 +35,7 @@ function ThreadRow({ thread, onPress }: { thread: Thread; onPress: () => void })
   const tagTone = thread.cat === 'group' ? 'green' : thread.cat === 'connection' ? 'muted' : 'accent';
 
   return (
-    <Pressable onPress={onPress} accessibilityRole="button">
+    <PressableScale onPress={onPress} accessibilityRole="button">
       <View
         style={{
           flexDirection: 'row',
@@ -95,7 +96,7 @@ function ThreadRow({ thread, onPress }: { thread: Thread; onPress: () => void })
           ) : null}
         </View>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 }
 

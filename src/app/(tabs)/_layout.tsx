@@ -9,7 +9,11 @@ import { TribeTabBar } from '@/components/TribeTabBar';
 export default function TabsLayout() {
   return (
     <Tabs
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+        sceneStyle: { backgroundColor: 'transparent' },
+      }}
       tabBar={(props) => <TribeTabBar {...props} />}
     >
       <Tabs.Screen name="tribeconnect" options={{ title: 'TribeConnect' }} />

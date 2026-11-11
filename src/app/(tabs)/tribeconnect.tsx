@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Screen } from '@/components/Screen';
 import { Rise } from '@/components/motion/Rise';
+import { PressableScale } from '@/components/motion/PressableScale';
+import { Sheen } from '@/components/motion/Sheen';
 import { Text } from '@/components/Text';
 import { MomentCard } from '@/components/MomentCard';
 import { MomentDetail } from '@/components/MomentDetail';
@@ -28,6 +30,7 @@ function PinnedLeadCard({ lead, onPress }: { lead: PinnedLead; onPress: () => vo
   return (
     <View style={{ borderRadius: radius.lg, overflow: 'hidden', borderWidth: 1, borderColor: c.border, ...theme.elevation.card }}>
       <LinearGradient colors={[g1, g2]} start={{ x: 0, y: 0 }} end={{ x: 0.6, y: 1 }} style={{ padding: theme.spacing.lg, gap: theme.spacing.md }}>
+        <Sheen />
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: c.surfaceInverse, borderRadius: radius.pill, paddingVertical: 5, paddingHorizontal: 11 }}>
             <Ionicons name="star" size={11} color={c.accent} />
@@ -58,14 +61,14 @@ function PinnedLeadCard({ lead, onPress }: { lead: PinnedLead; onPress: () => vo
           {lead.body}
         </Text>
 
-        <Pressable onPress={onPress}>
+        <PressableScale onPress={onPress}>
           <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', gap: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: c.accent, paddingVertical: 10, paddingHorizontal: 16 }}>
             <Text variant="bodyStrong" color={c.accent}>
               {lead.cta}
             </Text>
             <Ionicons name="arrow-forward" size={16} color={c.accent} />
           </View>
-        </Pressable>
+        </PressableScale>
       </LinearGradient>
     </View>
   );

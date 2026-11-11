@@ -3,6 +3,7 @@ import { Pressable, TextInput, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
+import { Rise } from '@/components/motion/Rise';
 import { Text } from '@/components/Text';
 import { SelectionPill } from '@/components/SelectionPill';
 import { TribeBadge, tribeName } from '@/components/TribeBadge';
@@ -127,72 +128,82 @@ export default function MyTribe() {
   return (
     <View style={{ flex: 1 }}>
     <Screen scroll>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
-        <LinearGradient colors={[ag1, ag2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ width: 52, height: 52, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' }}>
-          <Text variant="h2" color={c.textInverse}>
-            A
-          </Text>
-        </LinearGradient>
-        <View style={{ flex: 1, gap: 4 }}>
-          <Text variant="display">MyTribe</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
-            <TribeBadge label={name} />
-            <Text variant="small" color={c.textMuted}>
-              You · Amara
+      <Rise index={0}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
+          <LinearGradient colors={[ag1, ag2]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ width: 52, height: 52, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' }}>
+            <Text variant="h2" color={c.textInverse}>
+              A
             </Text>
+          </LinearGradient>
+          <View style={{ flex: 1, gap: 4 }}>
+            <Text variant="display">MyTribe</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+              <TribeBadge label={name} />
+              <Text variant="small" color={c.textMuted}>
+                You · Amara
+              </Text>
+            </View>
+          </View>
+          <View style={{ width: 40, height: 40, borderRadius: radius.md, borderWidth: 1, borderColor: c.border, alignItems: 'center', justifyContent: 'center' }}>
+            <Ionicons name="qr-code-outline" size={18} color={c.textMuted} />
           </View>
         </View>
-        <View style={{ width: 40, height: 40, borderRadius: radius.md, borderWidth: 1, borderColor: c.border, alignItems: 'center', justifyContent: 'center' }}>
-          <Ionicons name="qr-code-outline" size={18} color={c.textMuted} />
+      </Rise>
+
+      <Rise index={1}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, backgroundColor: c.surface, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 4, paddingHorizontal: theme.spacing.lg }}>
+          <Ionicons name="search" size={18} color={c.textMuted} />
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search your tribe"
+            placeholderTextColor={c.textMuted}
+            style={{ flex: 1, paddingVertical: 10, color: c.text, fontFamily: theme.fonts.body, fontSize: 16 }}
+          />
         </View>
-      </View>
+      </Rise>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, backgroundColor: c.surface, borderRadius: radius.pill, borderWidth: 1, borderColor: c.border, paddingVertical: 4, paddingHorizontal: theme.spacing.lg }}>
-        <Ionicons name="search" size={18} color={c.textMuted} />
-        <TextInput
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Search your tribe"
-          placeholderTextColor={c.textMuted}
-          style={{ flex: 1, paddingVertical: 10, color: c.text, fontFamily: theme.fonts.body, fontSize: 16 }}
-        />
-      </View>
-
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.sm }}>
-        {tribeFilters.map((f) => (
-          <SelectionPill key={f.id} label={f.label} selected={filter === f.id} onPress={() => setFilter(f.id)} />
-        ))}
-      </View>
-
-      <View style={{ gap: theme.spacing.xs }}>
-        {shown.map((t) => (
-          <ThreadRow key={t.id} thread={t} onPress={() => setOpenThread(t)} />
-        ))}
-        {shown.length === 0 ? (
-          <Text variant="muted" color={c.textMuted}>
-            No one matches that.
-          </Text>
-        ) : null}
-      </View>
-
-      <Pressable onPress={() => setDispatchOpen(true)} accessibilityRole="button">
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md, backgroundColor: `${c.house}1A`, borderRadius: radius.lg, borderWidth: 1, borderColor: `${c.house}55`, padding: theme.spacing.lg }}>
-          <View style={{ width: 44, height: 44, borderRadius: radius.md, backgroundColor: `${c.house}22`, alignItems: 'center', justifyContent: 'center' }}>
-            <Ionicons name="alert-circle" size={22} color={c.house} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text variant="bodyStrong" color={c.house}>
-              {dispatch.title}
-            </Text>
-            <Text variant="small" color={c.textMuted}>
-              {dispatch.subtitle}
-            </Text>
-          </View>
-          <Text variant="small" color={c.house} style={{ fontFamily: theme.fonts.bodyBold }}>
-            {dispatch.cta} ›
-          </Text>
+      <Rise index={2}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.sm }}>
+          {tribeFilters.map((f) => (
+            <SelectionPill key={f.id} label={f.label} selected={filter === f.id} onPress={() => setFilter(f.id)} />
+          ))}
         </View>
-      </Pressable>
+      </Rise>
+
+      <Rise index={3}>
+        <View style={{ gap: theme.spacing.xs }}>
+          {shown.map((t) => (
+            <ThreadRow key={t.id} thread={t} onPress={() => setOpenThread(t)} />
+          ))}
+          {shown.length === 0 ? (
+            <Text variant="muted" color={c.textMuted}>
+              No one matches that.
+            </Text>
+          ) : null}
+        </View>
+      </Rise>
+
+      <Rise index={4}>
+        <Pressable onPress={() => setDispatchOpen(true)} accessibilityRole="button">
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md, backgroundColor: `${c.house}1A`, borderRadius: radius.lg, borderWidth: 1, borderColor: `${c.house}55`, padding: theme.spacing.lg }}>
+            <View style={{ width: 44, height: 44, borderRadius: radius.md, backgroundColor: `${c.house}22`, alignItems: 'center', justifyContent: 'center' }}>
+              <Ionicons name="alert-circle" size={22} color={c.house} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text variant="bodyStrong" color={c.house}>
+                {dispatch.title}
+              </Text>
+              <Text variant="small" color={c.textMuted}>
+                {dispatch.subtitle}
+              </Text>
+            </View>
+            <Text variant="small" color={c.house} style={{ fontFamily: theme.fonts.bodyBold }}>
+              {dispatch.cta} ›
+            </Text>
+          </View>
+        </Pressable>
+      </Rise>
     </Screen>
 
       <ConversationView thread={openThread} onClose={() => setOpenThread(null)} />

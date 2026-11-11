@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Screen } from '@/components/Screen';
+import { Rise } from '@/components/motion/Rise';
 import { Text } from '@/components/Text';
 import { MomentCard } from '@/components/MomentCard';
 import { MomentDetail } from '@/components/MomentDetail';
@@ -110,32 +111,46 @@ export default function TribeConnect() {
   return (
     <View style={{ flex: 1 }}>
       <Screen scroll>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: theme.spacing.md }}>
-          <Text variant="display">TribeConnect</Text>
-          <TribeBadge label={name} />
-        </View>
-        <Text variant="muted">A never-ending journey — your people and places, always close.</Text>
+        <Rise index={0}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: theme.spacing.md }}>
+            <Text variant="display">TribeConnect</Text>
+            <TribeBadge label={name} />
+          </View>
+        </Rise>
+        <Rise index={0}>
+          <Text variant="muted">A never-ending journey — your people and places, always close.</Text>
+        </Rise>
 
-        <SegmentedToggle
-          options={[
-            { key: 'tribe', label: `My tribe · ${name}s` },
-            { key: 'everyone', label: 'Everyone' },
-          ]}
-          value={lens}
-          onChange={setLens}
-        />
+        <Rise index={1}>
+          <SegmentedToggle
+            options={[
+              { key: 'tribe', label: `My tribe · ${name}s` },
+              { key: 'everyone', label: 'Everyone' },
+            ]}
+            value={lens}
+            onChange={setLens}
+          />
+        </Rise>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
-          <Ionicons name="shield-checkmark" size={15} color={c.secondary} />
-          <Text variant="small" color={c.textMuted}>
-            Every Ghanaian here is vetted by Tribe Connect.
-          </Text>
-        </View>
+        <Rise index={2}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+            <Ionicons name="shield-checkmark" size={15} color={c.secondary} />
+            <Text variant="small" color={c.textMuted}>
+              Every Ghanaian here is vetted by Tribe Connect.
+            </Text>
+          </View>
+        </Rise>
 
-        {lead ? <PinnedLeadCard lead={lead} onPress={() => router.push('/tribe')} /> : null}
+        {lead ? (
+          <Rise index={3}>
+            <PinnedLeadCard lead={lead} onPress={() => router.push('/tribe')} />
+          </Rise>
+        ) : null}
 
-        {shown.map((m) => (
-          <MomentCard key={m.id} moment={m} onOpen={(mm) => mm.type === 'media' && setSelected(mm)} />
+        {shown.map((m, i) => (
+          <Rise key={m.id} index={4 + Math.min(i, 4)}>
+            <MomentCard moment={m} onOpen={(mm) => mm.type === 'media' && setSelected(mm)} />
+          </Rise>
         ))}
       </Screen>
 

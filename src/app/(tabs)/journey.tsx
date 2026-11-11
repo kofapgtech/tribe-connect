@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Screen } from '@/components/Screen';
+import { Rise } from '@/components/motion/Rise';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
@@ -224,25 +225,29 @@ export default function MyJourney() {
   return (
     <View style={{ flex: 1 }}>
       <Screen scroll>
-        <View style={{ alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radius.pill, borderWidth: 1, borderStyle: 'dashed', borderColor: c.border, paddingVertical: 7, paddingHorizontal: 14 }}>
-          <View style={{ backgroundColor: `${c.accent}22`, borderRadius: radius.pill, paddingVertical: 2, paddingHorizontal: 7 }}>
-            <Text variant="small" color={c.accent} style={{ fontFamily: theme.fonts.bodyBold }}>
-              DEMO
+        <Rise index={0}>
+          <View style={{ alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: radius.pill, borderWidth: 1, borderStyle: 'dashed', borderColor: c.border, paddingVertical: 7, paddingHorizontal: 14 }}>
+            <View style={{ backgroundColor: `${c.accent}22`, borderRadius: radius.pill, paddingVertical: 2, paddingHorizontal: 7 }}>
+              <Text variant="small" color={c.accent} style={{ fontFamily: theme.fonts.bodyBold }}>
+                DEMO
+              </Text>
+            </View>
+            <Text variant="small" color={c.textMuted}>
+              You&apos;re <Text variant="small" color={c.text}>not in Ghana</Text> · tap to flip
             </Text>
           </View>
-          <Text variant="small" color={c.textMuted}>
-            You&apos;re <Text variant="small" color={c.text}>not in Ghana</Text> · tap to flip
-          </Text>
-        </View>
+        </Rise>
 
-        <SegmentedToggle
-          options={[
-            { key: 'explore', label: 'Explore' },
-            { key: 'journey', label: 'Journey' },
-          ]}
-          value={view}
-          onChange={setView}
-        />
+        <Rise index={1}>
+          <SegmentedToggle
+            options={[
+              { key: 'explore', label: 'Explore' },
+              { key: 'journey', label: 'Journey' },
+            ]}
+            value={view}
+            onChange={setView}
+          />
+        </Rise>
 
         {view === 'explore' ? (
           <>

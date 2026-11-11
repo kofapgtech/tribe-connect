@@ -42,6 +42,7 @@ export const palette = {
 
 export type ThemeColors = {
   background: string;
+  stage: string; // deepest ground — the app-wide gradient base behind every view
   surface: string;
   surfaceSoft: string;
   surfaceInverse: string; // deepest panels / immersive hero blocks
@@ -66,6 +67,7 @@ export type ThemeColors = {
 
 export const lightColors: ThemeColors = {
   background: palette.paper,
+  stage: '#E9DCBB',
   surface: palette.creamCard,
   surfaceSoft: palette.creamSoft,
   surfaceInverse: palette.charcoal,
@@ -93,6 +95,7 @@ export const lightColors: ThemeColors = {
 // overridden per revealed tribe in useTheme().
 export const darkColors: ThemeColors = {
   background: '#0A0807',
+  stage: '#050403', // near-black ground; the warm radial glow is layered over it
   surface: '#221B10',
   surfaceSoft: '#342816',
   surfaceInverse: '#060504',

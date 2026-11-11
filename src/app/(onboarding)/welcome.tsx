@@ -7,7 +7,7 @@ import { Button } from '@/components/Button';
 import { Logo } from '@/components/Logo';
 import { BrandBar } from '@/components/BrandBar';
 import { AccentGlow } from '@/components/AccentGlow';
-import { radius, useTheme } from '@/theme';
+import { useTheme } from '@/theme';
 
 export default function Welcome() {
   const router = useRouter();
@@ -18,16 +18,7 @@ export default function Welcome() {
       <AccentGlow />
       <View style={{ flex: 1, justifyContent: 'center', gap: theme.spacing.xl }}>
         <Rise index={0}>
-          <View
-            style={{
-              borderRadius: radius.xl,
-              backgroundColor: theme.colors.surfaceInverse,
-              paddingVertical: theme.spacing.xxl,
-              paddingHorizontal: theme.spacing.xl,
-              alignItems: 'center',
-              gap: theme.spacing.md,
-            }}
-          >
+          <View style={{ alignItems: 'center', gap: theme.spacing.md }}>
             <Logo size={128} />
             <BrandBar />
             <Text variant="label" color={theme.colors.textInverse}>

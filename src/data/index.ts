@@ -6,4 +6,5 @@ export * from './moments';
 export * from './myjourney';
 export * from './mytribe';
 export * from './trip';
+export * from './exchange';
 export { query } from './client';

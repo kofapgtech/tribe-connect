@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useAnimatedStyle,
   useReducedMotion,
@@ -12,20 +11,20 @@ import Animated, {
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { BrandRing } from '@/components/BrandRing';
 import { AccentGlow } from '@/components/AccentGlow';
+import { TribeHalo } from '@/components/TribeHalo';
+import { TribeGlyph } from '@/components/TribeGlyph';
 import { Rise } from '@/components/motion/Rise';
-import { revealTribe } from '@/data';
-import type { TribeReveal } from '@/data/types';
+import { familyForTribe, revealTribe } from '@/data';
+import type { TribeArchetypeId, TribeReveal } from '@/data/types';
 import { useOnboarding } from '@/state/onboarding';
-import { duration, easing, radius, useTheme } from '@/theme';
+import { duration, easing, fonts, radius, useTheme } from '@/theme';
 
 /**
- * The reveal climax: the brand halo scales in while the tribe glyph springs
+ * The reveal climax: the accent halo scales in while the tribe glyph springs
  * up inside it with a short delay (emphasis overshoot). Honors reduce-motion.
  */
-function RevealEmblem({ icon, accent, bg }: { icon: keyof typeof Ionicons.glyphMap; accent: string; bg: string }) {
+function RevealEmblem({ id, accent }: { id: TribeArchetypeId; accent: string }) {
   const reduce = useReducedMotion();
   const halo = useSharedValue(reduce ? 1 : 0);
   const glyph = useSharedValue(reduce ? 1 : 0);
@@ -48,23 +47,44 @@ function RevealEmblem({ icon, accent, bg }: { icon: keyof typeof Ionicons.glyphM
 
   return (
     <Animated.View style={haloStyle}>
-      <BrandRing size={132} thickness={7}>
-        <Animated.View
-          style={[
-            { width: 104, height: 104, borderRadius: 52, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' },
-            glyphStyle,
-          ]}
-        >
-          <Ionicons name={icon} size={52} color={accent} />
+      <TribeHalo accent={accent} size={184}>
+        <Animated.View style={glyphStyle}>
+          <TribeGlyph id={id} color={accent} size={82} />
         </Animated.View>
-      </BrandRing>
+      </TribeHalo>
     </Animated.View>
+  );
+}
+
+/** Accent trait pills — the interests that led to this tribe. */
+function ReasonPills({ reasons, accent, text }: { reasons: string[]; accent: string; text: string }) {
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
+      {reasons.map((r) => (
+        <View
+          key={r}
+          style={{
+            borderRadius: radius.pill,
+            borderWidth: 1,
+            borderColor: `${accent}73`, // ≈45% accent
+            backgroundColor: `${accent}1A`, // ≈10% accent
+            paddingVertical: 7,
+            paddingHorizontal: 13,
+          }}
+        >
+          <Text variant="small" color={text} style={{ fontFamily: fonts.bodyBold }}>
+            {r}
+          </Text>
+        </View>
+      ))}
+    </View>
   );
 }
 
 export default function Reveal() {
   const router = useRouter();
   const theme = useTheme();
+  const c = theme.colors;
   const { selected, reveal } = useOnboarding();
   const [result, setResult] = useState<TribeReveal | null>(null);
 
@@ -84,7 +104,7 @@ export default function Reveal() {
     return (
       <Screen>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: theme.spacing.lg }}>
-          <ActivityIndicator color={theme.colors.accent} />
+          <ActivityIndicator color={c.accent} />
           <Text variant="muted">Finding your tribe…</Text>
         </View>
       </Screen>
@@ -92,6 +112,7 @@ export default function Reveal() {
   }
 
   const { archetype, reasons } = result;
+  const fam = familyForTribe(archetype.id);
 
   return (
     <Screen
@@ -102,54 +123,37 @@ export default function Reveal() {
         </View>
       }
     >
-      <AccentGlow intensity={0.28} />
-      <View style={{ flex: 1, justifyContent: 'center', gap: theme.spacing.xl }}>
-        <View
-          style={{
-            borderRadius: radius.xl,
-            backgroundColor: theme.colors.surfaceInverse,
-            paddingVertical: theme.spacing.xxl,
-            paddingHorizontal: theme.spacing.xl,
-            alignItems: 'center',
-            gap: theme.spacing.md,
-          }}
-        >
-          <RevealEmblem
-            icon={archetype.icon as keyof typeof Ionicons.glyphMap}
-            accent={theme.colors.accent}
-            bg={theme.colors.background}
-          />
-          <Rise index={2}>
-            <Text variant="label" color={theme.colors.accent} center>
-              Meet your tribe
-            </Text>
-          </Rise>
-          <Rise index={3}>
-            <Text variant="display" color={theme.colors.textInverse} center>
-              {archetype.name}
-            </Text>
-          </Rise>
-          <Rise index={4}>
-            <Text variant="title" color={theme.colors.textInverse} center>
-              {archetype.tagline}
-            </Text>
-          </Rise>
-        </View>
+      <AccentGlow intensity={0.26} />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: theme.spacing.md }}>
+        <Rise index={1}>
+          <Text variant="label" color={c.accent} center>
+            Meet your tribe
+          </Text>
+        </Rise>
 
-        <Rise index={5}>
-          <Text variant="body" center color={theme.colors.textMuted}>
+        <RevealEmblem id={archetype.id} accent={c.accent} />
+
+        <Rise index={2}>
+          <Text variant="label" color={c.accent} center>
+            {fam.family} family · {fam.note}
+          </Text>
+        </Rise>
+        <Rise index={2}>
+          <Text variant="display" color={c.text} center>
+            {archetype.name}
+          </Text>
+        </Rise>
+        <Rise index={3}>
+          <Text variant="body" color={c.textMuted} center style={{ maxWidth: 320 }}>
             {archetype.blurb}
           </Text>
         </Rise>
 
         {reasons.length > 0 ? (
-          <Rise index={6}>
-            <Card soft>
-              <Text variant="small" color={theme.colors.textMuted}>
-                Suggested because you chose {reasons.join(', ')}. Your badge is an invitation to
-                explore — all experiences stay open to you.
-              </Text>
-            </Card>
+          <Rise index={4}>
+            <View style={{ marginTop: theme.spacing.xs }}>
+              <ReasonPills reasons={reasons} accent={c.accent} text={c.text} />
+            </View>
           </Rise>
         ) : null}
       </View>

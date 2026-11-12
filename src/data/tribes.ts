@@ -109,3 +109,24 @@ export function revealTribe(subInterestIds: string[]) {
 export function getArchetype(id: TribeArchetypeId) {
   return archetypeById.get(id) ?? null;
 }
+
+/**
+ * Tribe families — the 5 archetypes grouped into three families, each with a
+ * short accent note. Shown as the small line above the tribe name on the
+ * reveal (e.g. "Discovery family · gold & ochre"). Families group by the
+ * member's underlying pull: Discovery (going out to find), Heritage (story +
+ * craft), Kinship (care + community).
+ */
+export type TribeFamily = { family: string; note: string };
+
+export const tribeFamily: Record<TribeArchetypeId, TribeFamily> = {
+  seeker: { family: 'Discovery', note: 'gold & ochre' },
+  griot: { family: 'Heritage', note: 'plum & rose' },
+  maker: { family: 'Heritage', note: 'clay & ember' },
+  nourisher: { family: 'Kinship', note: 'green & gold' },
+  connector: { family: 'Kinship', note: 'violet & dusk' },
+};
+
+export function familyForTribe(id: TribeArchetypeId): TribeFamily {
+  return tribeFamily[id] ?? { family: 'Discovery', note: 'gold & ochre' };
+}
